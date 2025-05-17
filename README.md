@@ -1,3 +1,3 @@
+# ElectionApp
 
-    <h1 align="center">Election Monitoring App</h1>
-
+A simple yii PHP-based application for managing and displaying election results.
