@@ -59,5 +59,10 @@ class Lga extends \yii\db\ActiveRecord
             'user_ip_address' => 'User Ip Address',
         ];
     }
+    public function getPollingUnits()
+    {
+        return $this->hasMany(PollingUnit::class, ['lga_id' => 'lga_id']);
+    }
+
 
 }

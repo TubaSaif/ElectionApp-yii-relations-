@@ -22,6 +22,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['auth/login'], // redirects guests to login page
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -47,14 +48,17 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '' => 'auth/login', // root (/) goes to login page
                 'login' => 'auth/login',
-            'register' => 'auth/register',
-            'polling-units' => 'result/polling-unit-result',
-            'lga-results' => 'result/lga-result',
+                'register' => 'auth/register',
+                'logout' => 'auth/logout',
+                'index' => 'site/index',
             ],
         ],
+
         
     ],
+    'defaultRoute' => 'auth/login', // open login first
     'params' => $params,
 ];
 

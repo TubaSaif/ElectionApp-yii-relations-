@@ -1,5 +1,4 @@
 <?php
-
 namespace app\models;
 
 use Yii;
@@ -9,22 +8,38 @@ class LoginForm extends Model
 {
     public $email;
     public $password;
+    public $rememberMe = true;
+
+    private $_user = false;
 
     public function rules()
     {
         return [
             [['email', 'password'], 'required'],
             ['email', 'email'],
+            ['rememberMe', 'boolean'],
         ];
     }
 
     public function login()
     {
-        $user = User::findByEmail($this->email);
-        if ($user && $user->validatePassword($this->password)) {
-            return Yii::$app->user->login($user);
+        if ($this->validate()) {
+            $user = $this->getUser();
+            if ($user && $user->validatePassword($this->password)) {
+                return Yii::$app->user->login($user, $this->rememberMe ? 3600*24*30 : 0);
+            }
+            $this->addError('password', 'Incorrect email or password.');
         }
-        $this->addError('password', 'Invalid email or password');
         return false;
     }
+
+    public function getUser()
+    {
+        if ($this->_user === false) {
+            $this->_user = User::findByEmail($this->email);
+        }
+        return $this->_user;
+    }
 }
+
+?>

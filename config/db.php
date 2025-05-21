@@ -2,7 +2,7 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=bincomfinaltest',
+    'dsn' => 'mysql:host=localhost;dbname=bincom_test_relations',
     'username' => 'root',
     'password' => '',
     'charset' => 'utf8',

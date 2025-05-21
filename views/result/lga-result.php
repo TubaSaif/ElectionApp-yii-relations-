@@ -3,7 +3,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 ?>
-
+<?php
+// echo "<pre>";
+// print_r($parties);
+// echo "</pre>";
+?>
 <h2>LGA Total Result</h2>
 
 <?php $form = ActiveForm::begin(); ?>
@@ -19,7 +23,6 @@ use yii\helpers\ArrayHelper;
 
 <?php ActiveForm::end(); ?>
 
-
 <?php if ($selectedLgaId): ?>
     <h2>Polling Unit Results</h2>
 
@@ -33,41 +36,31 @@ use yii\helpers\ArrayHelper;
             </tr>
         </thead>
         <tbody>
+<?php
+$partyTotals = array_fill_keys($parties, 0);
+?>
+
+<?php foreach ($results as $item): ?>
+    <tr>
+        <td><?= Html::encode($item['polling_unit_name']) ?> (<?= Html::encode($item['unit_id']) ?>)</td>
+        <?php foreach ($parties as $party): ?>
             <?php
-            // Initialize total score array
-            $partyTotals = [];
-            foreach ($parties as $party) {
-                $partyTotals[$party] = 0;
-            }
+            $score = $item['results'][$party] ?? 0;
+            $partyTotals[$party] += $score;
             ?>
+            <td><?= $score ?></td>
+        <?php endforeach; ?>
+    </tr>
+<?php endforeach; ?>
 
-            <?php foreach ($results as $item): ?>
-                <tr>
-                    <td><?= Html::encode($item['polling_unit_name']) ?> (<?= Html::encode($item['unit_id']) ?>)</td>
-                    <?php
-                    // Create result map: partyname => score
-                    $resultMap = [];
-                    foreach ($item['results'] as $res) {
-                        $resultMap[$res['partyname']] = (int)$res['party_score'];
-                    }
-                    ?>
-                    <?php foreach ($parties as $party): ?>
-                        <?php
-                        $score = $resultMap[$party] ?? 0;
-                        $partyTotals[$party] += $score;
-                        ?>
-                        <td><?= $score ?></td>
-                    <?php endforeach; ?>
-                </tr>
-            <?php endforeach; ?>
+<!-- Total Row -->
+<tr style="font-weight: bold; background-color: #f0f0f0;">
+    <td>Total</td>
+    <?php foreach ($partyTotals as $score): ?>
+        <td><?= $score ?></td>
+    <?php endforeach; ?>
+</tr>
+</tbody>
 
-            <!-- Total row -->
-            <tr style="font-weight: bold; background-color: #f0f0f0;">
-                <td>Total</td>
-                <?php foreach ($parties as $party): ?>
-                    <td><?= $partyTotals[$party] ?></td>
-                <?php endforeach; ?>
-            </tr>
-        </tbody>
     </table>
 <?php endif; ?>

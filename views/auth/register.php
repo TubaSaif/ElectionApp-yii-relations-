@@ -11,7 +11,7 @@ $this->title = 'Register';
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'name') ?>
-    <?= $form->field($model, 'email')->input('email') ?>
+    <?= $form->field($model, 'email') ?>
     <?= $form->field($model, 'password')->passwordInput() ?>
 
     <div class="form-group">

@@ -71,4 +71,12 @@ class PollingUnit extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getAnnouncedPuResults()
+    {
+        return $this->hasMany(AnnouncedPuResults::class, ['polling_unit_uniqueid' => 'uniqueid']);
+    }
+
+
+
+
 }

@@ -1,18 +1,14 @@
-<?php use yii\helpers\Html;
-use yii\widgets\ActiveForm; ?>
-
-
-
+<?php use yii\helpers\Html; ?>
 <h2>Polling Unit Result</h2>
 
-<?php $form = ActiveForm::begin(); ?>
+<?= Html::beginForm(); ?>
 <?= Html::dropDownList('polling_unit_uniqueid', $selectedUnitId,
     \yii\helpers\ArrayHelper::map($units, 'uniqueid', 'polling_unit_name'),
     ['prompt' => 'Select a Polling Unit']
 ) ?>
 <br><br>
 <?= Html::submitButton('Show Result', ['class' => 'btn btn-primary']) ?>
-<?php ActiveForm::end(); ?>
+<?= Html::endForm(); ?>
 
 <?php if ($results): ?>
     <h3>Results:</h3>
@@ -28,6 +24,6 @@ use yii\widgets\ActiveForm; ?>
             </tr>
         <?php endforeach; ?>
     </table>
-    <?php else: ?>
-        <h3>No Result found on your selection</h3>   
+<?php else: ?>
+    <h3>No Result found on your selection</h3>   
 <?php endif; ?>
